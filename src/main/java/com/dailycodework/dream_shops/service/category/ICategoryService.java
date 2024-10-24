@@ -7,7 +7,6 @@ import com.dailycodework.dream_shops.model.Category;
 
 public interface ICategoryService {
    
-
    Category getCategoryById(Long id);
 
    Category getCategoryByName(String name);
@@ -19,9 +18,6 @@ public interface ICategoryService {
    Category updateCategory(Category category,Long id);
 
    void deleteCategoryById(Long id);
-
-
-
 
 
 

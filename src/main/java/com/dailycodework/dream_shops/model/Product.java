@@ -3,8 +3,6 @@ package com.dailycodework.dream_shops.model;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,7 +40,7 @@ public class Product {
    private Category category;
 
 
-   //TODO: when i product was deleted ,all associated images will deleted
+   //TODO: when a product was deleted ,all associated images will deleted
    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL, orphanRemoval = true)
    private List<Image> images;
 

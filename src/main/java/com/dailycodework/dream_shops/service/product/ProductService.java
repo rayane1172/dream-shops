@@ -1,7 +1,6 @@
 package com.dailycodework.dream_shops.service.product;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -56,7 +55,6 @@ public class ProductService implements IProductService {
                      request.getDescription(), category);
                         request.setCategory(category);
       productRepository.save(createProduct(request, category));
-
       return product;
    }
 
@@ -67,8 +65,11 @@ public class ProductService implements IProductService {
       return productRepository.findById(productId)
       .map(existingProduct -> updateExistingProduct(existingProduct, productUpdateRequest))
       .map(productRepository :: save )
-            .orElseThrow(() -> new ProductNotFoundException("Product Not found!!"));
+            .orElseThrow(() ->
+                        new ProductNotFoundException("Product Not found!!"));
    }
+
+
 
    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest productUpdateRequest){
       existingProduct.setName(productUpdateRequest.getName());
@@ -77,10 +78,9 @@ public class ProductService implements IProductService {
       existingProduct.setInventory(productUpdateRequest.getInventory());
       existingProduct.setDescription(productUpdateRequest.getDescription());
 
-      //todo-> update category of exs product from the request update product 
+      //todo-> update category of exs product from the request update product
       Category category = categoryRepository.findByName(productUpdateRequest.getCategory().getName());
       existingProduct.setCategory(category);
-
       return existingProduct;
    }
 
@@ -94,7 +94,7 @@ public class ProductService implements IProductService {
    public List<Product> getProductsByCategory(String category) {
       return productRepository.findByCategoryName(category);
    }
-   
+
    @Override
    public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
       return productRepository.findByCategoryNameAndBrand(category, brand);
