@@ -3,6 +3,7 @@ package com.dailycodework.dream_shops.service.product;
 import java.util.List;
 import java.util.Optional;
 
+import com.dailycodework.dream_shops.exceptions.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.dailycodework.dream_shops.exceptions.ProductNotFoundException;
@@ -101,7 +102,7 @@ public class ProductService implements IProductService {
    }
 
    @Override
-   public List<Product> getProductByName(String name) {
+   public List<Product> getProductsByName(String name) {
       return productRepository.findByName(name);
    }
 
@@ -123,7 +124,7 @@ public class ProductService implements IProductService {
    @Override
    public Product getProductById(Long id) {
       return productRepository.findById(id)
-      .orElseThrow(() -> new ProductNotFoundException("Product Not found"));
+              .orElseThrow(() -> new ResourceNotFoundException("Product Not found"));
    }
 
    @Override

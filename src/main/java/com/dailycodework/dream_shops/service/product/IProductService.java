@@ -19,7 +19,7 @@ public interface IProductService {
 
    List<Product> getProductsByCategoryAndBrand(String category, String brand);
 
-   List<Product> getProductByName(String name);
+   List<Product> getProductsByName(String name);
 
    List<Product> getProductsByBrandAndName(String category, String name);
 
@@ -29,7 +29,6 @@ public interface IProductService {
    Product getProductById(Long id);
 
    void deleteProductById(Long id);
-
    Product updateProduct(ProductUpdateRequest productUpdateRequest, Long productId);
 
 
