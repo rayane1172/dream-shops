@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 
 import com.dailycodework.dream_shops.model.Category;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,6 +22,8 @@ public class AddProductRequest {
    private BigDecimal price;
    private Integer inventory;
    private String description;
+
+
    private Category category;
 
 

@@ -7,15 +7,13 @@ import com.dailycodework.dream_shops.request.ProductUpdateRequest;
 import com.dailycodework.dream_shops.response.ApiResponse;
 import com.dailycodework.dream_shops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
+
 
 import java.util.List;
 
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -46,7 +44,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product){
         try {
             Product theProduct = productService.addProduct(product);
-            return ResponseEntity.ok(new ApiResponse("add product Success..",null));
+            return ResponseEntity.ok(new ApiResponse("add product Success..",theProduct));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
         }
@@ -67,8 +65,8 @@ public class ProductController {
     public ResponseEntity<ApiResponse> deleteProduct (@PathVariable Long productId){
         try {
             productService.deleteProductById(productId);
-            return ResponseEntity.ok(new ApiResponse("Product Deleted successfuly..",null));
-        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.ok(new ApiResponse("Product Deleted successfully..",null));
+        } catch (Exception e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
         }
     }
@@ -77,7 +75,7 @@ public class ProductController {
 
 
     @GetMapping("/products/by/brand-and-name")
-    public ResponseEntity<ApiResponse> getProductByBrandAndName(@PathVariable String brandName, @PathVariable String productName){
+    public ResponseEntity<ApiResponse> getProductByBrandAndName(@RequestParam String brandName, @RequestParam String productName){
         try {
             List<Product> products = productService.getProductsByBrandAndName(brandName, productName);
             if (products.isEmpty()){
@@ -104,7 +102,7 @@ public class ProductController {
 
 
 
-    @GetMapping("/products/{name}/products")
+    @GetMapping("/{name}")
     public ResponseEntity<ApiResponse> getProductByName(@RequestParam String name){
         try {
             List<Product> products = productService.getProductsByName(name);
@@ -142,6 +140,16 @@ public class ProductController {
             return ResponseEntity.ok(new ApiResponse("success",products));
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage(),null));
+        }
+    }
+
+    @GetMapping("/product/count/by-brand/and-name")
+    public ResponseEntity<ApiResponse> findProductByCategory(@RequestParam String category,@RequestParam String name){
+        try {
+            var productCount = productService.countProductsByBrandAndName(category,name);
+            return ResponseEntity.ok(new ApiResponse("Product count !!",null));
+        } catch (Exception e) {
+            return ResponseEntity.ok(new ApiResponse(e.getMessage(),null));
         }
     }
 

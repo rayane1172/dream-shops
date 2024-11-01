@@ -2,6 +2,7 @@ package com.dailycodework.dream_shops.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +29,7 @@ public class Category {
    private String name;
 
    @OneToMany(mappedBy = "category")
+   @JsonIgnore  // to ignore infinite loop for the product response
    private List<Product> products;
 
 

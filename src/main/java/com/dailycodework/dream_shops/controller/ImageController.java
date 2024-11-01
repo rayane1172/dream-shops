@@ -31,10 +31,11 @@ public class ImageController {
     private final IImageService imageService;
 
     @PostMapping("/upload")
-    public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files,@RequestParam Long productId) {
+    public ResponseEntity<ApiResponse> saveImages(@RequestBody List<MultipartFile> files,@RequestParam Long productId) {
         try {
             List<ImageDto> imageDtos = imageService.saveImages(files, productId);
             return ResponseEntity.ok(new ApiResponse("Upload success ! ",imageDtos));
+
         } catch (Exception e) {
             return ResponseEntity.status(INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Upload failed ",e.getMessage()));
@@ -48,7 +49,7 @@ public class ImageController {
                 //create a byte array from the blob , and create a bit array of resource then return the respone as file
                 image.getImage().getBytes(1,(int) image.getImage().length()));
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\""+image.getFileName() +"\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + image.getFileName() + "\"")
                 .body(resource);
     }
 
@@ -61,7 +62,7 @@ public class ImageController {
 
             if (image != null){
                 imageService.updateImage(file,imageId);
-                return ResponseEntity.ok(new ApiResponse("update ssucess ! ",null));
+                return ResponseEntity.ok(new ApiResponse("update success ! ",null));
             }
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
