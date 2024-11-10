@@ -2,6 +2,7 @@ package com.dailycodework.dream_shops.model;
 
 import java.sql.Blob;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 public class Image {
-   
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,12 +29,15 @@ public class Image {
    private String fileName;
    private String fileType;
 
+//   @JsonIgnore
    @Lob
    private Blob image;
+
    private String downloadUrl;
 
    @ManyToOne // TODO: one product has many images
    @JoinColumn(name = "product_id")
+//   @JsonIgnore
    private Product product;
    
 

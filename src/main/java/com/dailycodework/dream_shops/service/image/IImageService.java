@@ -14,5 +14,4 @@ public interface IImageService {
     void updateImage(MultipartFile file, Long imageId);
 
 
-
 }

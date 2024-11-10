@@ -9,6 +9,6 @@ import lombok.Data;
 public class ApiResponse { // to return data to our front-end application
 
     private String message;
-    private Object data;  // to send a response in term of data object
+    private Object data;  //todo -> to send a response in term of data object
 
 }

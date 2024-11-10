@@ -3,7 +3,12 @@ package com.dailycodework.dream_shops.service.product;
 import java.util.List;
 import java.util.Optional;
 
+import com.dailycodework.dream_shops.dto.ImageDto;
+import com.dailycodework.dream_shops.dto.ProductDto;
 import com.dailycodework.dream_shops.exceptions.ResourceNotFoundException;
+import com.dailycodework.dream_shops.model.Image;
+import com.dailycodework.dream_shops.repository.ImageRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.dailycodework.dream_shops.exceptions.ProductNotFoundException;
@@ -21,11 +26,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductService implements IProductService {
 
-   //todo-> i should add final to inject this dependancy because we write the anotation @requiredARgsconstructor
+   //todo-> i should add final to inject this dependancy because we write the anotation @requiredArgsconstructor
    private final ProductRepository productRepository;
    private final CategoryRepository categoryRepository;
-   
-
+   private final ImageRepository imageRepository;
+   private final ModelMapper modelMapper;
 
 
 
@@ -136,6 +141,22 @@ public class ProductService implements IProductService {
    }
 
 
+   @Override
+   public List<ProductDto> getConvertedProducts(List<Product> products){
+      return products.stream().map(this::convertToDto).toList();
+   }
+
+   @Override
+   public ProductDto convertToDto(Product product){
+      ProductDto productDto = modelMapper.map(product,ProductDto.class);
+      List<Image> images = imageRepository.findByProductId(product.getId());
+
+      List<ImageDto> imageDtos = images.stream()
+              .map(image -> modelMapper.map(image, ImageDto.class)).toList();
+
+      productDto.setImages(imageDtos);
+      return productDto;
+   }
 
    
 }
