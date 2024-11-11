@@ -47,7 +47,8 @@ public class ImageController {
         Image image = imageService.getImageById(imageId);
         ByteArrayResource resource = new ByteArrayResource(
                 //create a byte array from the blob , and create a bit array of resource then return the respone as file
-                image.getImage().getBytes(1,(int) image.getImage().length()));
+                image.getImage().getBytes(1,(int) image.getImage().length())
+        );
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(image.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + image.getFileName() + "\"")
                 .body(resource);
