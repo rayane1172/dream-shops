@@ -6,7 +6,7 @@ import com.dailycodework.dream_shops.model.Cart;
 import com.dailycodework.dream_shops.model.CartItem;
 import com.dailycodework.dream_shops.model.Product;
 import com.dailycodework.dream_shops.repository.CartRepository;
-import com.dailycodework.dream_shops.response.CartItemRepository;
+import com.dailycodework.dream_shops.repository.CartItemRepository;
 import com.dailycodework.dream_shops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -74,7 +74,12 @@ public class CartItemService implements ICartItemService{
                     item.setUnitPrice(item.getProduct().getPrice());
                     item.setTotalPrice();
                 });
-        BigDecimal totalAmount = cart.getTotalAmount();
+        BigDecimal totalAmount = cart.getItems()
+                                    .stream()
+                                    .map(CartItem :: getTotalPrice)
+                                    .reduce(BigDecimal.ZERO, BigDecimal :: add);
+// Todo ->    reduce(valleur initial, function )
+
         cart.setTotalAmount(totalAmount);
         cartRepository.save(cart);
     }

@@ -29,7 +29,7 @@ public class Image {
    private String fileName;
    private String fileType;
 
-//   @JsonIgnore
+   @JsonIgnore
    @Lob
    private Blob image;
 
@@ -37,7 +37,7 @@ public class Image {
 
    @ManyToOne // TODO: one product has many images
    @JoinColumn(name = "product_id")
-//   @JsonIgnore
+   @JsonIgnore
    private Product product;
    
 

@@ -47,8 +47,7 @@ public class Cart {
             if (unitPrice == null){
                 return BigDecimal.ZERO;
             }
-            return unitPrice.multiply(BigDecimal
-                    .valueOf(item.getQuantity()));
+            return unitPrice.multiply(BigDecimal.valueOf(item.getQuantity()));
         }).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
