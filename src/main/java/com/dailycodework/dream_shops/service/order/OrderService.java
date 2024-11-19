@@ -1,6 +1,7 @@
 package com.dailycodework.dream_shops.service.order;
 
 
+import com.dailycodework.dream_shops.dto.OrderDto;
 import com.dailycodework.dream_shops.enums.OrderStatus;
 import com.dailycodework.dream_shops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dream_shops.model.Cart;
@@ -11,6 +12,9 @@ import com.dailycodework.dream_shops.repository.OrderRepository;
 import com.dailycodework.dream_shops.repository.ProductRepository;
 import com.dailycodework.dream_shops.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.internal.bytebuddy.asm.Advice;
+import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.This;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -26,6 +30,8 @@ public class OrderService implements IOrderService{
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
+
+    private final ModelMapper modelMapper;
 
     @Override
     public Order placeOrder(Long userId) {
@@ -76,17 +82,22 @@ public class OrderService implements IOrderService{
 
 
     @Override
-    public Order getOrder(Long orderId) {
-        return orderRepository.findById(orderId)
-                .orElseThrow( () -> new ResourceNotFoundException("Order not found !!!!"));
+    public OrderDto getOrder(Long orderId) {
+        return orderRepository.findById(orderId).map(this :: convertToDto)
+                .orElseThrow(() -> new ResourceNotFoundException("order not found "));
 
     }
 
     @Override
-    public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        // todo -> convert list of orders to ordersDto
+        return orders.stream().map(this::convertToDto ).toList();
     }
 
 
+    private OrderDto convertToDto(Order order){
+        return modelMapper.map(order, OrderDto.class);
+    }
 
 }

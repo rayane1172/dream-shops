@@ -1,6 +1,7 @@
 package com.dailycodework.dream_shops.model;
 
 import com.dailycodework.dream_shops.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,8 +29,6 @@ public class Order {
     private OrderStatus orderStatus;
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
-
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
