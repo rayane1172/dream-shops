@@ -19,6 +19,6 @@ public class UserDto {
     private String lastName;
     private String email;
     private List<OrderDto> orders;
-    private CartDto cartDto;
+    private CartDto cart;
 
 }

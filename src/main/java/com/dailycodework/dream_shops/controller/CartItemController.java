@@ -2,9 +2,12 @@ package com.dailycodework.dream_shops.controller;
 
 
 import com.dailycodework.dream_shops.exceptions.ResourceNotFoundException;
+import com.dailycodework.dream_shops.model.Cart;
+import com.dailycodework.dream_shops.model.User;
 import com.dailycodework.dream_shops.response.ApiResponse;
 import com.dailycodework.dream_shops.service.cart.ICartItemService;
 import com.dailycodework.dream_shops.service.cart.ICartService;
+import com.dailycodework.dream_shops.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.http.ResponseEntity;
@@ -19,18 +22,19 @@ public class CartItemController {
 
     private final ICartItemService cartItemService;
     private final ICartService cartService;
-
+    private final IUserService userService;
 
     @PostMapping("/item/add")
-    public ResponseEntity<ApiResponse> addItemToCart (@RequestParam(required = false) Long cartId,
+    public ResponseEntity<ApiResponse> addItemToCart (
                                                       @RequestParam Long productId,
                                                       @RequestParam Integer quantity){
         try {
-            if (cartId == null){ // just to generate a cartId for a user to test this services
-               cartId =  cartService.initializeNewCart();
-            }
+//            if (cartId == null){ // just to generate a cartId for a user to test this services
+//            cartId =  cartService.initializeNewCart();
+                User user = userService.getUserById(2L);
+               Cart cart =  cartService.initializeNewCart(user);
 
-            cartItemService.addItemToCart(cartId,productId, quantity);
+            cartItemService.addItemToCart(cart.getId(),productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add item to cart successfuly..",null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
