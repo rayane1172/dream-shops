@@ -13,9 +13,6 @@ import java.util.Set;
 
 @Data
 public class OrderDto {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
     private LocalDate orderDate;
     private BigDecimal totalAmount;

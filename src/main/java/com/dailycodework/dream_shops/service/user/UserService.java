@@ -1,5 +1,6 @@
 package com.dailycodework.dream_shops.service.user;
 
+import com.dailycodework.dream_shops.dto.UserDto;
 import com.dailycodework.dream_shops.exceptions.AlreadyExistsException;
 import com.dailycodework.dream_shops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dream_shops.model.User;
@@ -7,6 +8,7 @@ import com.dailycodework.dream_shops.repository.UserRepository;
 import com.dailycodework.dream_shops.request.CreateUserRequest;
 import com.dailycodework.dream_shops.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 
@@ -17,6 +19,10 @@ import java.util.Optional;
 public class UserService implements IUserService{
 
     private final UserRepository userRepository;
+
+//    todo -> to convert user class to userDto
+    private final ModelMapper modelMapper;
+
 
     @Override
     public User getUserById(Long userId) {
@@ -57,8 +63,11 @@ public class UserService implements IUserService{
     }
 
 
+    @Override
+    public UserDto convertUserToDto(User user){
+        return modelMapper.map(user,UserDto.class);
 
-
+    }
 
 
 

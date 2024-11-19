@@ -11,3 +11,6 @@ Spring Data JPA: For data persistence.
 SQL Database: For persistent storage and data management.
 Goals:
 To create a robust and scalable backend system that enhances the user shopping experience by effectively managing categories, products, and images.
+
+# Data Base Schema :
+![Data Base schema](spring-DB.PNG)

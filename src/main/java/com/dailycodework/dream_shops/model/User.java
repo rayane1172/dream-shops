@@ -11,11 +11,12 @@ import org.hibernate.annotations.NaturalId;
 import java.util.List;
 
 
-@Entity
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
 public class User {
 
 
@@ -31,7 +32,7 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
 
