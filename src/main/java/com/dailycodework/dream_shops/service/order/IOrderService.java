@@ -11,4 +11,7 @@ public interface IOrderService {
     OrderDto getOrder(Long orderId);
 
     List<OrderDto> getUserOrders(Long userId);
+
+    // hipo method to convert order object to orderDto
+    OrderDto convertToDto(Order order);
 }

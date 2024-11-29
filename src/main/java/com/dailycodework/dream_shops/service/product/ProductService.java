@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.dailycodework.dream_shops.dto.ImageDto;
 import com.dailycodework.dream_shops.dto.ProductDto;
+import com.dailycodework.dream_shops.exceptions.AlreadyExistsException;
 import com.dailycodework.dream_shops.exceptions.ResourceNotFoundException;
 import com.dailycodework.dream_shops.model.Image;
 import com.dailycodework.dream_shops.repository.ImageRepository;
@@ -48,6 +49,11 @@ public class ProductService implements IProductService {
       // chech if the category is found in DB
       // if yes, set it as the new product category
       // if no,then save it as a new category then set it as the new product category
+
+      if (productExists(request.getName(),request.getBrand())){
+         throw new AlreadyExistsException(request.getBrand()+" "+request.getName()
+                 +" already exists, you may update this product instead...");
+      }
       Category category = Optional.ofNullable(categoryRepository
                                     .findByName(request.getCategory().getName()))
                                     .orElseGet(() -> {
@@ -64,6 +70,10 @@ public class ProductService implements IProductService {
       return product;
    }
 
+   //hipo method
+   private boolean productExists(String name, String brand){
+      return productRepository.existsByNameAndBrand(name, brand);
+   }
 
 
    @Override

@@ -13,8 +13,6 @@ import com.dailycodework.dream_shops.repository.ProductRepository;
 import com.dailycodework.dream_shops.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.internal.bytebuddy.asm.Advice;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.This;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -96,7 +94,9 @@ public class OrderService implements IOrderService{
     }
 
 
-    private OrderDto convertToDto(Order order){
+    // hipo method to convert order object to orderDto
+    @Override
+    public OrderDto convertToDto(Order order){
         return modelMapper.map(order, OrderDto.class);
     }
 

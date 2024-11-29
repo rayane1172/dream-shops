@@ -31,7 +31,7 @@ public class CartItemController {
         try {
 //            if (cartId == null){ // just to generate a cartId for a user to test this services
 //            cartId =  cartService.initializeNewCart();
-                User user = userService.getUserById(2L);
+                User user = userService.getUserById(4L);
                Cart cart =  cartService.initializeNewCart(user);
 
             cartItemService.addItemToCart(cart.getId(),productId, quantity);
