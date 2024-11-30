@@ -8,15 +8,18 @@ import com.dailycodework.dream_shops.response.ApiResponse;
 import com.dailycodework.dream_shops.service.cart.ICartItemService;
 import com.dailycodework.dream_shops.service.cart.ICartService;
 import com.dailycodework.dream_shops.service.user.IUserService;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.cache.spi.support.AbstractReadWriteAccess;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @RestController
 @RequiredArgsConstructor
+//secure this class because the main featrue is here
 @RequestMapping("${api.prefix}/cartItems")
 public class CartItemController {
 
@@ -31,7 +34,7 @@ public class CartItemController {
         try {
 //            if (cartId == null){ // just to generate a cartId for a user to test this services
 //            cartId =  cartService.initializeNewCart();
-                User user = userService.getUserById(4L);
+                User user = userService.getAuthenticatedUser();
                Cart cart =  cartService.initializeNewCart(user);
 
             cartItemService.addItemToCart(cart.getId(),productId, quantity);
@@ -39,6 +42,8 @@ public class CartItemController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(e.getMessage(),null));
 //            what's difference btw paramter and argument ?
+        } catch (JwtException e) {
+            return ResponseEntity.status(UNAUTHORIZED).body(new ApiResponse(e.getMessage(),null));
         }
     }
 

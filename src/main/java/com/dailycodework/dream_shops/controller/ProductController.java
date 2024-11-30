@@ -10,6 +10,7 @@ import com.dailycodework.dream_shops.response.ApiResponse;
 import com.dailycodework.dream_shops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,7 +24,8 @@ import static org.springframework.http.HttpStatus.*;
 public class ProductController {
 
 
-    private final IProductService productService; // final = dependancy injection with the anotations above (requredargs..)
+    private final IProductService productService;
+    // final = dependancy injection with the anotations above (requredargs..)
 
     @GetMapping("/all")
     public ResponseEntity<ApiResponse> getAllProducts(){
@@ -45,6 +47,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN)") // only admin role can access to this ressource
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody AddProductRequest product){
         try {
@@ -55,6 +58,7 @@ public class ProductController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN)") // only admin role can access to this ressource
     @PutMapping("/product/{productId}/update")
     public ResponseEntity<ApiResponse> updateProduct (@RequestBody ProductUpdateRequest request, @PathVariable Long productId){
         try {
@@ -65,7 +69,7 @@ public class ProductController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_ADMIN)") // only admin role can access to this ressource
     @DeleteMapping("/product/{productId}/delete")
     public ResponseEntity<ApiResponse> deleteProduct (@PathVariable Long productId){
         try {

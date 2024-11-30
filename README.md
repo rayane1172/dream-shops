@@ -14,3 +14,5 @@ To create a robust and scalable backend system that enhances the user shopping e
 
 # Data Base Schema :
 ![Data Base schema](spring-DB.PNG)
+# After adding Spring Security :
+![spring Security](db-shema-spring-security.PNG)
